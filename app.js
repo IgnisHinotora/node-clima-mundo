@@ -10,20 +10,41 @@ const argv = require('yargs').options({
 }).argv;
 
 
+const getInfo = async(direccion) => {
 
-const getInfoClima = () {
+    try {
+        const coord = await lugar.getLugarLatLng(direccion);
+        const temp = await clima.getClima(coord.lat, coord.lng);
 
-
-
+        return `La temperatura en ${direccion} es de ${temp} ° C  `;
+    } catch (e) {
+        return `No fué posible encontrar el clima para el lugar indicado ${e}`
+    }
 
 }
 
 
-/*lugar.getLugarLatLng(argv.direccion)
+getInfo(argv.direccion).then(resp => {
+    console.log(resp);
+}).catch(e => {
+    console.log('Ocurrió el siguiente error: ', e)
+});
+
+
+
+
+
+/** clima.getClima(location.lat, location.lon)
+    .then(console.log)
+    .catch(console.log);
+    lugar.getLugarLatLng(argv.direccion)
     .then(console.log)
     .catch(console.log);
 
-clima.getClima(46.450001, -63.380001)
-    .then(console.log)
-    .catch(console.log);
-//argv.direccion*/
+    
+    
+    */
+
+
+//argv.direccion
+//getClima(46.450001, -63.380001)
